@@ -67,8 +67,11 @@ class LrsBridge extends PolymerElement {
               data: Object.assign(
                 {},
                 {
-                  actor: {
-                    name: this.getUserName()
+                  verb: {
+                    id: "viewed"
+                  },
+                  object: {
+                    id: url
                   }
                 },
                 options
@@ -124,3 +127,15 @@ class LrsBridge extends PolymerElement {
   }
 }
 window.customElements.define(LrsBridge.tag, LrsBridge);
+
+const statement = {
+  actor: {
+    id: "mgp140"
+  },
+  verb: {
+    id: "can_create_raw_statement"
+  },
+  object: {
+    id: "curl"
+  }
+};

@@ -2,6 +2,7 @@ const path = require("path");
 const { Command, flags } = require("@oclif/command");
 const { spawn } = require("child_process");
 const startServicePath = require.resolve("../../gateway");
+console.log("startServicePath:", startServicePath);
 
 class StartCommand extends Command {
   async run() {

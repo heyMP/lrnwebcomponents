@@ -40,6 +40,7 @@ class AccentCard extends SimpleColors {
   // render function
   static get template() {
     return html`
+      hi there!
       <style is="custom-style" include="simple-colors">
         :host {
           display: block;

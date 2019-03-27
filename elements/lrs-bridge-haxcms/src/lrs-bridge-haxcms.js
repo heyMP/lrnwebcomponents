@@ -66,3 +66,28 @@ class LrsBridgeHaxcms extends LrsBridge {
   }
 }
 window.customElements.define(LrsBridgeHaxcms.tag, LrsBridgeHaxcms);
+
+fetch("http://localhost/4000", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+    Accept: "application/json"
+  },
+  body: JSON.stringify({
+    query: `
+      createStatement(data: JSON.stringify({
+        actor: {
+          id: "mgp140"
+        },
+        verb: {
+          id: "fetched_mutation"
+        },
+        object: {
+          id: "browser_fetch_mutation"
+        }
+      }))
+		`
+  })
+})
+  .then(r => r.json())
+  .then(data => console.log("data returned:", data));
