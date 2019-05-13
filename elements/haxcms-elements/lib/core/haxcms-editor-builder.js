@@ -44,22 +44,45 @@ class HAXCMSEditorBuilder extends PolymerElement {
   /**
    * Try to get context of what backend is powering this
    */
-  getContext() {
+  async getContext() {
     let context = "";
+
+    // try nodejs
+    if (context === "") {
+      try {
+        // see if we can access appSettings on the server
+        await fetch("http://localhost:3000/login").then(res => {
+          // if it's there then we'll assume this is our haxcms nodejs server
+          if (res.status === 200) {
+            context = "nodejs";
+          }
+        });
+      } catch (error) {}
+    }
+
+    if (context === "") {
+      // figure out if we are a php context
+      try {
+        await fetch("/haxcms-jwt.php");
+      } catch (error) {
+        context = "php";
+      }
+    }
+
     // figure out the context we need to apply for where the editing creds
     // and API might come from
-    if (typeof DatArchive !== typeof undefined) {
-      context = "beaker";
-    } else if (window.__haxCMSContextPublished === true) {
-      context = "published";
-    } else if (window.__haxCMSContextNode === true) {
-      // @todo add support for node js based back end
-      context = "nodejs";
-    } else if (window.__haxCMSContextDemo === true) {
-      context = "demo";
-    } else {
-      context = "php";
-    }
+    // if (typeof DatArchive !== typeof undefined) {
+    //   context = "beaker";
+    // } else if (window.__haxCMSContextPublished === true) {
+    //   context = "published";
+    // } else if (window.__haxCMSContextNode === true) {
+    //   // @todo add support for node js based back end
+    //   context = "nodejs";
+    // } else if (window.__haxCMSContextDemo === true) {
+    //   context = "demo";
+    // } else {
+    //   context = "php";
+    // }
     return context;
   }
   editorLoaded(e) {
@@ -75,14 +98,26 @@ class HAXCMSEditorBuilder extends PolymerElement {
       }, 5);
     }
   }
-  applyContext() {
-    let context = this.getContext();
+  async applyContext() {
+    let context = await this.getContext();
     if (context === "php") {
       // append the php for global scope to show up via window
       // this is a unique case since it's server side generated in HAXCMS/PHP
       let script = document.createElement("script");
       script.src = `/haxcms-jwt.php`;
       document.documentElement.appendChild(script);
+    }
+    /**
+     * if the context is nodejs then call the app-settings endpoint
+     */
+    if (context === "nodejs") {
+      try {
+        await fetch("http://localhost:3000/app-settings")
+          .then(res => res.json())
+          .then(res => {
+            window.appSettings = res;
+          });
+      } catch (error) {}
     }
     // dynamic import if this isn't published
     if (context !== "published") {

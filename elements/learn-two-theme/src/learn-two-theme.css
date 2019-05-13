@@ -202,3 +202,8 @@ app-drawer-layout[narrow] site-menu-button[type="prev"] {
 :host([opened]) app-drawer-layout[narrow] site-menu-button[type="next"] {
   display: none;
 }
+
+#slot {
+  margin: auto;
+  max-width: var(--learn-two-slot-max-width, none);
+}

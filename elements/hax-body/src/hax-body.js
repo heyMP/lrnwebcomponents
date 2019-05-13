@@ -52,7 +52,7 @@ let HaxBody = Polymer({
       #haxinputmixer {
         z-index: 10000000;
       }
-      .hax-context-visible.hax-active-hover {
+      /* .hax-context-visible.hax-active-hover {
         visibility: visible;
         opacity: 1;
         pointer-events: all;
@@ -84,7 +84,7 @@ let HaxBody = Polymer({
         line-height: 40px;
         min-height: 26px;
         font-size: 24px;
-      }
+      } */
       :host #bodycontainer ::slotted(a),
       :host #bodycontainer ::slotted(a:visited),
       :host #bodycontainer ::slotted(a:active) {

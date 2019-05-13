@@ -1,0 +1,51 @@
+{
+  "name": "@lrnwebcomponents/jwt-login-graphql",
+  "wcfactory": {
+    "className": "JwtLoginGraphql",
+    "customElementClass": "PolymerElement",
+    "elementName": "jwt-login-graphql",
+    "generator-wcfactory-version": "0.7.3",
+    "useHAX": false,
+    "useSass": false,
+    "files": {
+      "css": "src/jwt-login-graphql.css",
+      "scss": "src/jwt-login-graphql.scss",
+      "html": "src/jwt-login-graphql.html",
+      "js": "src/jwt-login-graphql.js",
+      "properties": "src/jwt-login-graphql-properties.json",
+      "hax": "src/jwt-login-graphql-hax.json"
+    }
+  },
+  "version": "2.0.9",
+  "description": "JSON Web Token login broker / manager for Graphql.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/elmsln/lrnwebcomponents.git"
+  },
+  "main": "jwt-login-graphql.js",
+  "module": "jwt-login-graphql.es6.js",
+  "umd": "jwt-login-graphql.umd.js",
+  "amd": "jwt-login-graphql.amd.js",
+  "scripts": {
+    "test": "../../node_modules/.bin/wct --configFile ../../wct.conf.json node_modules/@lrnwebcomponents/jwt-login-graphql/test/",
+    "start":"yarn run dev","build":"../../node_modules/.bin/gulp && ../../node_modules/.bin/rollup -c && ../../node_modules/.bin/prettier --ignore-path ../../.prettierignore --write '**/*.{js,json}'","dev":"open ./src && concurrently --kill-others 'yarn run watch' 'yarn run serve'","watch":"../../node_modules/.bin/gulp dev","serve":"polymer serve --npm --module-resolution=node --open","lighthouse":"../../node_modules/.bin/gulp lighthouse"
+  },
+  "author": {
+    "name": "heymp"
+  },
+  "license": "Apache-2.0",
+  "dependencies": {
+    "@polymer/polymer":"^3.0.5"
+  },
+  "devDependencies": {
+    "@polymer/iron-demo-helpers":"3.0.2","@polymer/iron-component-page":"github:PolymerElements/iron-component-page","@webcomponents/webcomponentsjs":"2.1.3","concurrently":"4.0.1","gulp-babel":"8.0.0","gulp-sourcemaps":"2.6.4","lodash":"4.17.11","polymer-cli":"1.8.1","polymer-build":"3.1.0","wct-browser-legacy":"1.0.2"
+  },
+  "private": false,
+  "publishConfig": {
+    "access": "public"
+  },
+  "keywords": [
+    "web-components",
+    "html"
+  ]
+}

@@ -1,6 +1,6 @@
 import { html, PolymerElement } from "@polymer/polymer/polymer-element.js";
 import { Router } from "@vaadin/router";
-import { autorun } from "mobx";
+import { autorun, intercept } from "mobx";
 import { store } from "./haxcms-site-store.js";
 /**
  * `haxcms-site-router`
@@ -61,7 +61,6 @@ class HAXCMSSiteRouter extends PolymerElement {
     );
     super.disconnectedCallback();
   }
-
   /**
    * Update the router based on a manifest.
    * This should not be called directly. Use the
@@ -70,6 +69,14 @@ class HAXCMSSiteRouter extends PolymerElement {
    * @param {object} routerManifest
    */
   _updateRouter(routerManifest) {
+    // check to see if we should remove .html extensions
+    // if (typeof routerManifest.items !== 'undefined' && routerManifest.items.length > 0) {
+    //   if (!this._routerManifestChecked) {
+    //     this._routerManifestChecked = true;
+    //     store.routerManifest.items = routerManifest.items.map(i => Object.assign({}, i))
+    //   }
+    // }
+
     if (!routerManifest || typeof routerManifest.items === "undefined") return;
     const routerItems = routerManifest.items.map(i => {
       return {
@@ -83,6 +90,7 @@ class HAXCMSSiteRouter extends PolymerElement {
       { path: "/", component: "fake-home-e", name: "home" },
       { path: "/(.*)", component: "fake-404-e", name: "404" }
     ]);
+    this._routerManifestChecked = false;
   }
 
   /**
