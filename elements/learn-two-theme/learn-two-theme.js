@@ -54,6 +54,8 @@ class LearnTwoTheme extends HAXCMSTheme(PolymerElement) {
         #contentcontainer {
           background: #fafafa;
           padding: 48px 96px;
+          max-width: var(--learn-two-theme-content-max-width, 900px);
+          margin: auto;
         }
 
         .header {
