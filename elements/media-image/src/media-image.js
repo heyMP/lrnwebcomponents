@@ -6,6 +6,7 @@ import { html, PolymerElement } from "@polymer/polymer/polymer-element.js";
 import { afterNextRender } from "@polymer/polymer/lib/utils/render-status.js";
 import { HAXWiring } from "@lrnwebcomponents/hax-body-behaviors/lib/HAXWiring.js";
 import { SchemaBehaviors } from "@lrnwebcomponents/schema-behaviors/schema-behaviors.js";
+import {} from "@polymer/polymer/lib/elements/dom-if.js";
 /**
  * `media-image`
  * `A simple image presentaiton with minor documented options`
@@ -82,6 +83,20 @@ class MediaImage extends SchemaBehaviors(PolymerElement) {
           width: 100%;
           --iron-image-width: 100%;
         }
+
+        :host([offset="left"]) {
+          float: left;
+          margin: var(--media-image-offset-width, 1.5vw);
+          margin-left: calc(-2 * var(--media-image-offset-width, 1.5vw));
+          margin-top: 0;
+        }
+
+        :host([offset="right"]) {
+          float: right;
+          margin: var(--media-image-offset-width, 1.5vw);
+          margin-right: calc(-2 * var(--media-image-offset-width, 1.5vw));
+          margin-top: 0;
+        }
       </style>
 
       <iron-image
@@ -156,6 +171,17 @@ class MediaImage extends SchemaBehaviors(PolymerElement) {
       box: {
         type: Boolean,
         value: false,
+        reflectToAttribute: true
+      },
+      /**
+       * Applies left or right offset
+       * - none
+       * - left
+       * - right
+       */
+      offset: {
+        type: String,
+        value: "none",
         reflectToAttribute: true
       }
     };
@@ -256,6 +282,19 @@ class MediaImage extends SchemaBehaviors(PolymerElement) {
             description: "Apply a visual box around the image.",
             inputMethod: "boolean",
             icon: "image:crop-square",
+            required: false
+          },
+          {
+            property: "offset",
+            title: "Offset",
+            description: "Apply a left or right offset to the image.",
+            inputMethod: "select",
+            icon: "image:crop-square",
+            options: {
+              none: "none",
+              left: "left",
+              right: "right"
+            },
             required: false
           }
         ],
