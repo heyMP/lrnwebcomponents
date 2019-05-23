@@ -7,6 +7,11 @@ import { afterNextRender } from "@polymer/polymer/lib/utils/render-status.js";
 import { HAXWiring } from "@lrnwebcomponents/hax-body-behaviors/lib/HAXWiring.js";
 import { SchemaBehaviors } from "@lrnwebcomponents/schema-behaviors/schema-behaviors.js";
 import {} from "@polymer/polymer/lib/elements/dom-if.js";
+import { FlattenedNodesObserver } from "@polymer/polymer/lib/utils/flattened-nodes-observer.js";
+// This blows up for some reason
+// import './lib/media-image-caption.js'
+// import './lib/media-image-citation.js'
+
 /**
  * `media-image`
  * `A simple image presentaiton with minor documented options`
@@ -64,21 +69,6 @@ class MediaImage extends SchemaBehaviors(PolymerElement) {
           }
         }
 
-        .citation {
-          font-size: 12.8px;
-          font-style: italic;
-          color: #4c4c4c;
-          margin: 15px 0 15px;
-        }
-
-        .caption {
-          padding-bottom: 25px;
-          border-bottom: dashed 2px lightgray;
-          margin-bottom: 25px;
-          line-height: 1.5;
-          font-size: 18px;
-        }
-
         iron-image {
           width: 100%;
           --iron-image-width: 100%;
@@ -89,6 +79,7 @@ class MediaImage extends SchemaBehaviors(PolymerElement) {
           margin: var(--media-image-offset-width, 1.5vw);
           margin-left: calc(-2 * var(--media-image-offset-width, 1.5vw));
           margin-top: 0;
+          margin-bottom: calc(0.1 * var(--media-image-offset-width, 1.5vw));
         }
 
         :host([offset="right"]) {
@@ -96,16 +87,26 @@ class MediaImage extends SchemaBehaviors(PolymerElement) {
           margin: var(--media-image-offset-width, 1.5vw);
           margin-right: calc(-2 * var(--media-image-offset-width, 1.5vw));
           margin-top: 0;
+          margin-bottom: calc(0.1 * var(--media-image-offset-width, 1.5vw));
         }
       </style>
-
       <iron-image
         resource\$="[[schemaResourceID]]-image"
         src\$="[[source]]"
         alt\$="[[alt]]"
       ></iron-image>
-      <div class="citation">[[citation]]<slot name="citation"></slot></div>
-      <div class="caption">[[caption]]<slot name="caption"></slot></div>
+
+      <media-image-citation>
+        <slot name="citation">
+          [[citation]]
+        </slot>
+      </media-image-citation>
+
+      <media-image-caption>
+        <slot name="caption">
+          [[caption]]
+        </slot>
+      </media-image-caption>
     `;
   }
   static get tag() {
@@ -245,13 +246,6 @@ class MediaImage extends SchemaBehaviors(PolymerElement) {
             required: true
           },
           {
-            property: "caption",
-            title: "Caption",
-            description: "A caption to describe the image usage",
-            inputMethod: "haxupload",
-            icon: "av:call-to-action"
-          },
-          {
             property: "alt",
             title: "Alternative text",
             description: "Text to describe the image to non-sighted users.",
@@ -296,13 +290,19 @@ class MediaImage extends SchemaBehaviors(PolymerElement) {
               right: "right"
             },
             required: false
-          }
-        ],
-        advanced: [
+          },
           {
-            property: "citation",
+            slot: "citation",
             title: "Citation",
             description: "Citation for the image.",
+            inputMethod: "textfield",
+            icon: "text-format",
+            required: false
+          },
+          {
+            slot: "caption",
+            title: "Caption",
+            description: "Caption for the image.",
             inputMethod: "textfield",
             icon: "text-format",
             required: false
@@ -313,4 +313,73 @@ class MediaImage extends SchemaBehaviors(PolymerElement) {
   }
 }
 window.customElements.define(MediaImage.tag, MediaImage);
+
+/**
+ * `media-image-citation`
+ * `A simple image presentaiton with minor documented options`
+ * @demo demo/index.html
+ */
+class MediaImageCitation extends PolymerElement {
+  static get template() {
+    return html`
+      <style>
+        :host {
+          display: block;
+        }
+
+        .citation {
+          font-size: 12.8px;
+          font-style: italic;
+          color: #4c4c4c;
+          margin: 15px 0 15px;
+        }
+      </style>
+      <div class="citation"><slot></slot></div>
+    `;
+  }
+  static get tag() {
+    return "media-image-citation";
+  }
+}
+window.customElements.define(MediaImageCitation.tag, MediaImageCitation);
+
+/**
+ * `media-image-caption`
+ * `A simple image presentaiton with minor documented options`
+ * @demo demo/index.html
+ */
+class MediaImageCaption extends PolymerElement {
+  static get template() {
+    return html`
+      <style>
+        :host {
+          display: block;
+        }
+
+        .caption {
+          padding-bottom: 25px;
+          border-bottom: dashed 2px lightgray;
+          margin-bottom: 25px;
+          line-height: 1.5;
+          font-size: 18px;
+        }
+
+        ::slotted(*) {
+          margin-top: 0;
+        }
+        ::slotted(*:last-child) {
+          margin-bottom: 0;
+        }
+      </style>
+      <div class="caption" hidden$="[[!__hasContent]]">
+        <slot id="slot"></slot>
+      </div>
+    `;
+  }
+  static get tag() {
+    return "media-image-caption";
+  }
+}
+window.customElements.define(MediaImageCaption.tag, MediaImageCaption);
+
 export { MediaImage };
