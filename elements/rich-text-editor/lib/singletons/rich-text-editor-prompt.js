@@ -9,18 +9,18 @@ import "@lrnwebcomponents/simple-fields/simple-fields.js";
 import "../buttons/rich-text-editor-button-styles.js";
 
 // register globally so we can make sure there is only one
-window.richTextEditorPrompt = window.richTextEditorPrompt || {};
+window.RichTextEditorPrompt = window.RichTextEditorPrompt || {};
 // request if this exists. This helps invoke the element existing in the dom
 // as well as that there is only one of them. That way we can ensure everything
 // is rendered through the same modal
-window.richTextEditorPrompt.requestAvailability = () => {
-  if (!window.richTextEditorPrompt.instance) {
-    window.richTextEditorPrompt.instance = document.createElement(
+window.RichTextEditorPrompt.requestAvailability = () => {
+  if (!window.RichTextEditorPrompt.instance) {
+    window.RichTextEditorPrompt.instance = document.createElement(
       "rich-text-editor-prompt"
     );
-    document.body.appendChild(window.richTextEditorPrompt.instance);
+    document.body.appendChild(window.RichTextEditorPrompt.instance);
   }
-  return window.richTextEditorPrompt.instance;
+  return window.RichTextEditorPrompt.instance;
 };
 /**
  * `rich-text-editor-prompt`
@@ -32,7 +32,7 @@ window.richTextEditorPrompt.requestAvailability = () => {
  * @customElement
  * @polymer
  */
-class richTextEditorPrompt extends PolymerElement {
+class RichTextEditorPrompt extends PolymerElement {
   /* REQUIRED FOR TOOLING DO NOT TOUCH */ // render function
   static get template() {
     return html`
@@ -116,7 +116,7 @@ class richTextEditorPrompt extends PolymerElement {
               id="cancel"
               class="rtebutton"
               controls="[[__targetId]]"
-              on-tap="_cancel"
+              on-click="_cancel"
               tabindex="0"
             >
               <iron-icon id="icon" aria-hidden icon="clear"> </iron-icon>
@@ -127,7 +127,7 @@ class richTextEditorPrompt extends PolymerElement {
               id="confirm"
               class="rtebutton"
               controls="[[__targetId]]"
-              on-tap="_confirm"
+              on-click="_confirm"
               tabindex="0"
             >
               <iron-icon id="icon" aria-hidden icon="check"> </iron-icon>
@@ -210,8 +210,8 @@ class richTextEditorPrompt extends PolymerElement {
     let root = this;
 
     // sets the instance to the current instance
-    if (!window.richTextEditorPrompt.instance) {
-      window.richTextEditorPrompt.instance = this;
+    if (!window.RichTextEditorPrompt.instance) {
+      window.RichTextEditorPrompt.instance = this;
       return this;
     }
   }
@@ -269,5 +269,5 @@ class richTextEditorPrompt extends PolymerElement {
     this.clearTarget();
   }
 }
-window.customElements.define(richTextEditorPrompt.tag, richTextEditorPrompt);
-export { richTextEditorPrompt };
+window.customElements.define(RichTextEditorPrompt.tag, RichTextEditorPrompt);
+export { RichTextEditorPrompt };

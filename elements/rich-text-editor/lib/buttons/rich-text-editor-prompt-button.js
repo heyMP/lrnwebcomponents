@@ -107,7 +107,7 @@ class RichTextEditorPromptButton extends RichTextEditorButton {
   ready() {
     super.ready();
     let root = this;
-    this.__prompt = window.richTextEditorPrompt.requestAvailability();
+    this.__prompt = window.RichTextEditorPrompt.requestAvailability();
     this.__selection = window.RichTextEditorSelection.requestAvailability();
   }
   /**

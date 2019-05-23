@@ -102,10 +102,13 @@ class MultipleChoice extends SchemaBehaviors(PolymerElement) {
         <paper-button
           disabled\$="[[disabled]]"
           raised=""
-          on-tap="_verifyAnswers"
+          on-click="_verifyAnswers"
           >[[checkLabel]]</paper-button
         >
-        <paper-button disabled\$="[[disabled]]" raised="" on-tap="resetAnswers"
+        <paper-button
+          disabled\$="[[disabled]]"
+          raised=""
+          on-click="resetAnswers"
           >[[resetLabel]]</paper-button
         >
       </div>
@@ -148,7 +151,7 @@ class MultipleChoice extends SchemaBehaviors(PolymerElement) {
          */
         checkLabel: {
           type: String,
-          value: "Check answer"
+          value: "Check answer Finally"
         },
         /**
          * Text of the reset button
@@ -302,6 +305,17 @@ class MultipleChoice extends SchemaBehaviors(PolymerElement) {
       this.__toastText = this.incorrectText;
       this.$.toast.show();
     }
+
+    //let eventData = [''];
+    const evt = new CustomEvent("user-engagement", {
+      bubbles: true,
+      composed: true,
+      cancelable: false,
+      detail: { passed: gotRight }
+      ///detail: {name: "dave"}
+      //detail: eventData
+    });
+    this.dispatchEvent(evt);
   }
 
   /**

@@ -17,7 +17,7 @@ import "../buttons/rich-text-editor-button-styles.js";
  * @customElement
  * @polymer
  */
-class richTextEditorBreadcrumbs extends PolymerElement {
+class RichTextEditorBreadcrumbs extends PolymerElement {
   /* REQUIRED FOR TOOLING DO NOT TOUCH */ // render function
   static get template() {
     return html`
@@ -151,7 +151,7 @@ class richTextEditorBreadcrumbs extends PolymerElement {
   }
 }
 window.customElements.define(
-  richTextEditorBreadcrumbs.tag,
-  richTextEditorBreadcrumbs
+  RichTextEditorBreadcrumbs.tag,
+  RichTextEditorBreadcrumbs
 );
-export { richTextEditorBreadcrumbs };
+export { RichTextEditorBreadcrumbs };

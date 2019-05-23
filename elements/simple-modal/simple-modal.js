@@ -42,6 +42,8 @@ window.SimpleModal.requestAvailability = () => {
  * @customElement
  * @polymer
  * @demo demo/index.html demo
+ * @demo demo/css.html styling simple-modal via CSS
+ * @demo demo/details.html styling simple-modal via event details
  * @demo demo/template.html using simple-modal-template
  */
 class SimpleModal extends PolymerElement {
@@ -67,6 +69,8 @@ class SimpleModal extends PolymerElement {
         }
 
         #dialog {
+          display: flex;
+          flex-direction: column;
           margin: 15px auto;
           z-index: 1000;
           height: var(--simple-modal-height, auto);
@@ -128,6 +132,7 @@ class SimpleModal extends PolymerElement {
         }
 
         #simple-modal-content {
+          flex-grow: 1;
           padding: 8px 16px;
           margin: 0;
           color: var(--simple-modal-content-container-color, #222);
@@ -169,6 +174,7 @@ class SimpleModal extends PolymerElement {
         exit-animation="fade-out-animation"
         role="dialog"
         opened="{{opened}}"
+        modal="[[modal]]"
         with-backdrop
       >
         <div id="titlebar">
@@ -237,6 +243,14 @@ class SimpleModal extends PolymerElement {
       invokedBy: {
         name: "invokedBy",
         type: Object
+      },
+      /**
+       * support for modal flag
+       */
+      modal: {
+        name: "modal",
+        type: Boolean,
+        value: false
       }
     };
   }
@@ -284,6 +298,7 @@ class SimpleModal extends PolymerElement {
   }
   /**
    * show event call to open the modal and display it's content
+   *
    */
   showEvent(e) {
     // if we're already opened and we get told to open again....
@@ -298,7 +313,11 @@ class SimpleModal extends PolymerElement {
           e.detail.title,
           e.detail.elements,
           e.detail.invokedBy,
-          e.detail.clone
+          e.detail.id,
+          e.detail.modalClass,
+          e.detail.styles,
+          e.detail.clone,
+          e.detail.modal
         );
       }, 100);
     } else {
@@ -306,20 +325,67 @@ class SimpleModal extends PolymerElement {
         e.detail.title,
         e.detail.elements,
         e.detail.invokedBy,
-        e.detail.clone
+        e.detail.id,
+        e.detail.modalClass,
+        e.detail.styles,
+        e.detail.clone,
+        e.detail.modal
       );
     }
   }
   /**
    * Show the modal and display the material
    */
-  show(title, elements, invokedBy, clone = false) {
+  show(
+    title,
+    elements,
+    invokedBy,
+    id = null,
+    modalClass = null,
+    styles = null,
+    clone = false,
+    modal = false
+  ) {
     this.set("invokedBy", invokedBy);
+    this.modal = modal;
     this.title = title;
     let element;
     // append element areas into the appropriate slots
     // ensuring they are set if it wasn't previously
     let slots = ["header", "content", "buttons"];
+    if (id) {
+      this.setAttribute("id", id);
+    } else {
+      this.removeAttribute("id");
+    }
+    this.setAttribute("style", "");
+    if (styles) {
+      [
+        "--simple-modal-width",
+        "--simple-modal-height",
+        "--simple-modal-min-width",
+        "--simple-modal-min-height",
+        "--simple-modal-max-width",
+        "--simple-modal-max-height",
+        "--simple-modal-titlebar-color",
+        "--simple-modal-titlebar-background",
+        "--simple-modal-header-color",
+        "--simple-modal-header-background",
+        "--simple-modal-content-container-color",
+        "--simple-modal-content-container-background",
+        "--simple-modal-buttons-color",
+        "--simple-modal-buttons-background",
+        "--simple-modal-button-color",
+        "--simple-modal-button-background"
+      ].forEach(prop => {
+        this.style.setProperty(prop, styles[prop] || "unset");
+      });
+    }
+    if (modalClass) {
+      this.setAttribute("class", modalClass);
+    } else {
+      this.removeAttribute("class");
+    }
     for (var i in slots) {
       if (elements[slots[i]]) {
         if (clone) {
