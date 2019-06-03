@@ -35,7 +35,7 @@ class HaxBody extends PolymerElement {
   }
   static get template() {
     return html`
-      <style include="simple-colors hax-shared-styles">
+      <style include="hax-shared-styles">
         @import url("https://fonts.googleapis.com/css?family=Noto+Serif");
         :host {
           display: block;
@@ -875,6 +875,9 @@ class HaxBody extends PolymerElement {
       // create a new element fragment w/ content in it
       // if this is a custom-element it won't expand though
       var frag = document.createElement(tag);
+      // set text forcibly
+      //frag.innerText = content;
+      // now set html forcibly which would overwrite the other one
       frag.innerHTML = content;
       // clone the fragment which will force an escalation to full node
       var newNode = frag.cloneNode(true);
@@ -939,7 +942,9 @@ class HaxBody extends PolymerElement {
           this.activeContainerNode.tagName === "GRID-PLATE" &&
           this.activeContainerNode !== this.activeNode
         ) {
-          newNode.setAttribute("slot", this.activeNode.getAttribute("slot"));
+          if (this.activeNode.getAttribute("slot") != null) {
+            newNode.setAttribute("slot", this.activeNode.getAttribute("slot"));
+          }
           dom(this.activeContainerNode).insertBefore(newNode, this.activeNode);
         } else {
           dom(this).insertBefore(
@@ -1087,6 +1092,10 @@ class HaxBody extends PolymerElement {
     this.hideContextMenus();
     // convert the node to a hax element
     let haxElement = window.HaxStore.nodeToHaxElement(node, null);
+    // support for deep API call to clean up special elements
+    if (typeof node.preProcessHaxInsertContent !== typeof undefined) {
+      haxElement = node.preProcessHaxInsertContent(haxElement);
+    }
     // convert it back to a clone, seems odd I'm sure but this ensures that all props are copied
     // correctly and that we get a brand new object
     var nodeClone = window.HaxStore.haxElementToNode(
@@ -1213,6 +1222,10 @@ class HaxBody extends PolymerElement {
       if (node.getAttribute("slot") != null) {
         replacement.setAttribute("slot", node.getAttribute("slot"));
       }
+      if (node == null) {
+        node = this.__oldActiveNode;
+        parent = this.__oldActiveNode.parentNode;
+      }
       dom(parent).replaceChild(replacement, node);
     } catch (e) {
       console.log(e);
@@ -1266,17 +1279,23 @@ class HaxBody extends PolymerElement {
         .replace(/<\/li>/g, "<br/>");
     }
     // Switch!
-    dom(this).replaceChild(replacement, node);
-    // focus on the thing switched to
-    setTimeout(() => {
-      let children = dom(replacement).getEffectiveChildNodes();
-      // see if there's a child element and focus that instead if there is
-      if (children[0] && children.tagName) {
-        children[0].focus();
-      } else {
-        replacement.focus();
-      }
-    }, 50);
+    try {
+      dom(this).replaceChild(replacement, node);
+      // focus on the thing switched to
+      setTimeout(() => {
+        let children = dom(replacement).getEffectiveChildNodes();
+        // see if there's a child element and focus that instead if there is
+        if (children[0] && children.tagName) {
+          children[0].focus();
+        } else {
+          replacement.focus();
+        }
+      }, 50);
+    } catch (e) {
+      console.log(e);
+      console.log(replacement);
+      console.log(node);
+    }
     return replacement;
   }
   /**
@@ -1842,8 +1861,10 @@ class HaxBody extends PolymerElement {
         window.HaxStore.instance.isTextElement(newValue) ||
         window.HaxStore.instance.isGridPlateElement(newValue)
       ) {
+        newValue.setAttribute("contenteditable", true);
         this.setAttribute("contenteditable", true);
       } else {
+        newValue.removeAttribute("contenteditable");
         this.removeAttribute("contenteditable");
       }
       let tag = newValue.tagName.toLowerCase();
@@ -1878,8 +1899,10 @@ class HaxBody extends PolymerElement {
         window.HaxStore.instance.isTextElement(newValue) ||
         window.HaxStore.instance.isGridPlateElement(newValue)
       ) {
+        newValue.setAttribute("contenteditable", true);
         this.setAttribute("contenteditable", true);
       } else {
+        newValue.removeAttribute("contenteditable");
         this.removeAttribute("contenteditable");
       }
       this.$.textcontextmenu.selectedValue = tag;
@@ -1904,6 +1927,7 @@ class HaxBody extends PolymerElement {
     // just hide menus if we don't have an active item
     else if (newValue === null) {
       this.hideContextMenus();
+      this.__oldActiveNode = oldValue;
       this.$.textcontextmenu.justifyIcon = "editor:format-align-left";
       this.$.textcontextmenu.justifyValue = "text-align-left";
     }

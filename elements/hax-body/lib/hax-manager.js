@@ -31,7 +31,7 @@ class HaxManager extends PolymerElement {
   }
   static get template() {
     return html`
-      <style include="hax-shared-styles simple-colors">
+      <style include="hax-shared-styles">
         :host {
           display: block;
           color: var(--hax-color-text);
@@ -493,6 +493,7 @@ class HaxManager extends PolymerElement {
     // reference the active place holder element since place holders are
     // the only things possible for seeing these
     window.HaxStore.instance.activePlaceHolder = e.detail.placeHolderElement;
+    this.editExistingNode = true;
     // ! I can't believe this actually works. This takes the event
     // ! that was a drop event else where on the page and then repoints
     // ! it to simulate the drop event using the same event structure that
@@ -587,6 +588,7 @@ class HaxManager extends PolymerElement {
    * do a gizmo guess from there!
    */
   _fileUploadResponse(e) {
+    this.editExistingNode = true;
     // convert response to object
     let response = JSON.parse(e.detail.xhr.response);
     // access the app that did the upload
@@ -685,6 +687,14 @@ class HaxManager extends PolymerElement {
     // bubble up the inject event / element to the body
     let previewNode = this.shadowRoot.querySelector("#preview").previewNode;
     previewNode.removeAttribute("hax-preview-mode");
+    // trickery to get it into the DOM but the preview not disappear
+    if (previewNode.getAttribute("data-hax-slot") != null) {
+      previewNode.setAttribute(
+        "slot",
+        previewNode.getAttribute("data-hax-slot")
+      );
+      previewNode.removeAttribute("data-hax-slot");
+    }
     let element = window.HaxStore.nodeToHaxElement(previewNode);
     element.replace = this.editExistingNode;
     if (typeof this.activeHaxElement.__type !== typeof undefined) {

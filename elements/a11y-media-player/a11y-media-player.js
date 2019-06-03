@@ -519,7 +519,6 @@ class A11yMediaPlayer extends A11yMediaBehaviors {
           }
         }
       </style>
-      <style include="simple-colors"></style>
       <div class="sr-only">[[mediaCaption]]</div>
       <div id="outerplayer">
         <div id="innerplayer">
@@ -970,6 +969,7 @@ class A11yMediaPlayer extends A11yMediaBehaviors {
     root.target = root.shadowRoot.querySelector("#transcript");
     root.__status = root._getLocal("loading", "label");
     root.__slider = root.$.slider;
+    root.__slider.min = 0;
     root.__volume = root.muted ? 0 : Math.max(this.volume, 10);
     root.__resumePlaying = false;
     root.__duration = 0;

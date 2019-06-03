@@ -245,7 +245,6 @@ class LearnTwoTheme extends HAXCMSTheme(PolymerElement) {
         }
       </style>
 
-      <style include="simple-colors"></style>
       <app-drawer-layout>
         <paper-icon-button
           id="menubutton"

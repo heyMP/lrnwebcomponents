@@ -28,7 +28,7 @@ class HaxAppPicker extends PolymerElement {
   }
   static get template() {
     return html`
-      <style include="simple-colors hax-shared-styles">
+      <style include="hax-shared-styles">
         :host {
           display: block;
         }
@@ -64,7 +64,7 @@ class HaxAppPicker extends PolymerElement {
         }
         #dialog {
           min-width: 300px;
-          min-height: 150px;
+          min-height: 280px;
           max-height: 60vh;
           max-width: 50vw;
           overflow: hidden;
@@ -235,7 +235,7 @@ class HaxAppPicker extends PolymerElement {
    */
   presentOptions(
     elements,
-    type,
+    type = "element",
     title = "Select an option",
     pickerType = "gizmo"
   ) {

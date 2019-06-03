@@ -31,7 +31,7 @@ class HaxPanel extends PolymerElement {
   }
   static get template() {
     return html`
-      <style include="simple-colors hax-shared-styles">
+      <style include="hax-shared-styles">
         :host {
           display: block;
           position: absolute;
@@ -220,7 +220,7 @@ class HaxPanel extends PolymerElement {
           voice-command="insert stack"
         ></hax-panel-item>
         <hax-panel-item
-          icon="editor:text-fields"
+          icon="editor:short-text"
           label="Paragraph"
           event-name="text"
           voice-command="insert text"
