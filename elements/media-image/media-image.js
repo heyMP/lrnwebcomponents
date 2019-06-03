@@ -32,8 +32,8 @@ class MediaImage extends SchemaBehaviors(PolymerElement) {
       <style>
         :host {
           display: block;
-          font-family: "Roboto", sans-serif;
-          width: 100%;
+          width: auto;
+          margin: auto;
           --box-background-color: #f7f6ef;
         }
 
@@ -88,6 +88,10 @@ class MediaImage extends SchemaBehaviors(PolymerElement) {
           margin-right: calc(-2 * var(--media-image-offset-width, 1.5vw));
           margin-top: 0;
           margin-bottom: calc(0.1 * var(--media-image-offset-width, 1.5vw));
+        }
+
+        :host([offset="wide"]) {
+          margin: 0 calc(-1 * var(--media-image-offset-width, 1.5vw));
         }
       </style>
       <iron-image
@@ -177,6 +181,7 @@ class MediaImage extends SchemaBehaviors(PolymerElement) {
       /**
        * Applies left or right offset
        * - none
+       * - wide
        * - left
        * - right
        */
@@ -292,7 +297,7 @@ class MediaImage extends SchemaBehaviors(PolymerElement) {
             required: false
           },
           {
-            slot: "citation",
+            property: "citation",
             title: "Citation",
             description: "Citation for the image.",
             inputMethod: "textfield",
@@ -300,7 +305,7 @@ class MediaImage extends SchemaBehaviors(PolymerElement) {
             required: false
           },
           {
-            slot: "caption",
+            property: "caption",
             title: "Caption",
             description: "Caption for the image.",
             inputMethod: "textfield",

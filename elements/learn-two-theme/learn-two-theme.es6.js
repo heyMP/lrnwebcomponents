@@ -15,13 +15,12 @@
 static get template(){return html`
 <style>:host {
   display: block;
-  font-family: "Muli","Helvetica","Tahoma","Geneva","Arial",sans-serif;
+  font-family: var(--learn-two-theme-font-family, "Muli","Helvetica","Tahoma","Geneva","Arial",sans-serif);
   letter-spacing: -.03rem;
   font-weight:400;
-  background: #FAFAFA;
+  background: var(--learn-two-theme-bg-color, #FFFFFF);
 }
 h1,h2,h3,h4,h5,h6 {
-  font-family:"Montserrat","Helvetica","Tahoma","Geneva","Arial",sans-serif;
   font-weight:400;
   text-rendering:optimizeLegibility;
   line-height:150%;
@@ -37,8 +36,10 @@ h1,h2,h3,h4,h5,h6 {
 }
 
 #contentcontainer {
-  background: #FAFAFA;
+  background: var(--learn-two-theme-bg-color);
   padding: 48px 96px;
+  max-width: var(--learn-two-theme-content-max-width, 900px);
+  margin: auto;
 }
 
 .header {
@@ -50,7 +51,6 @@ h1,h2,h3,h4,h5,h6 {
 
 site-active-title {
   --site-active-title-heading: {
-    font-family: "Montserrat", "Helvetica", "Tahoma", "Geneva", "Arial", sans-serif;
     font-size: 52px;
     letter-spacing: -3px;
     line-height: 78px;
@@ -70,7 +70,6 @@ site-title {
     text-decoration: none;
   };
   --site-title-heading: {
-    font-family: "Montserrat", "Helvetica", "Tahoma", "Geneva", "Arial", sans-serif;
     font-size: 28px;
     margin: 0;
     padding: 0;
@@ -252,7 +251,7 @@ app-drawer-layout[narrow] site-menu-button[type="prev"] {
     <site-menu-button type="next"></site-menu-button>
   </div>
 </app-drawer-layout>`}// properties available to the custom element for data binding
-static get properties(){return{}}constructor(){super();import("./node_modules/@polymer/app-layout/app-drawer/app-drawer.js");import("./node_modules/@polymer/app-layout/app-drawer-layout/app-drawer-layout.js");import("./node_modules/@polymer/paper-icon-button/paper-icon-button.js");import("./node_modules/@lrnwebcomponents/haxcms-elements/lib/ui-components/navigation/site-breadcrumb.js");import("./node_modules/@lrnwebcomponents/haxcms-elements/lib/ui-components/active-item/site-active-title.js");import("./node_modules/@lrnwebcomponents/haxcms-elements/lib/ui-components/site/site-title.js");import("./node_modules/@lrnwebcomponents/haxcms-elements/lib/ui-components/site/site-rss-button.js");import("./node_modules/@lrnwebcomponents/haxcms-elements/lib/ui-components/site/site-print-button.js");import("./node_modules/@lrnwebcomponents/haxcms-elements/lib/ui-components/navigation/site-menu.js");import("./node_modules/@lrnwebcomponents/haxcms-elements/lib/ui-components/navigation/site-menu-button.js");import("./node_modules/@lrnwebcomponents/haxcms-elements/lib/ui-components/site/site-search.js");import("./node_modules/@lrnwebcomponents/haxcms-elements/lib/ui-components/layout/site-modal.js")}/**
+static get properties(){let props={};if(super.properties){props=Object.assign(props,super.properties)}return props}constructor(){super();import("./node_modules/@polymer/app-layout/app-drawer/app-drawer.js");import("./node_modules/@polymer/app-layout/app-drawer-layout/app-drawer-layout.js");import("./node_modules/@polymer/paper-icon-button/paper-icon-button.js");import("./node_modules/@lrnwebcomponents/haxcms-elements/lib/ui-components/navigation/site-breadcrumb.js");import("./node_modules/@lrnwebcomponents/haxcms-elements/lib/ui-components/active-item/site-active-title.js");import("./node_modules/@lrnwebcomponents/haxcms-elements/lib/ui-components/site/site-title.js");import("./node_modules/@lrnwebcomponents/haxcms-elements/lib/ui-components/site/site-rss-button.js");import("./node_modules/@lrnwebcomponents/haxcms-elements/lib/ui-components/site/site-print-button.js");import("./node_modules/@lrnwebcomponents/haxcms-elements/lib/ui-components/navigation/site-menu.js");import("./node_modules/@lrnwebcomponents/haxcms-elements/lib/ui-components/navigation/site-menu-button.js");import("./node_modules/@lrnwebcomponents/haxcms-elements/lib/ui-components/site/site-search.js");import("./node_modules/@lrnwebcomponents/haxcms-elements/lib/ui-components/layout/site-modal.js")}/**
    * Store the tag name to make it easier to obtain directly.
    * @notice function name must be here for tooling to operate correctly
    */static get tag(){return"learn-two-theme"}/**

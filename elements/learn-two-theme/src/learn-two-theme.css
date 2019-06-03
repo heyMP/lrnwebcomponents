@@ -1,12 +1,11 @@
 :host {
   display: block;
-  font-family: "Muli","Helvetica","Tahoma","Geneva","Arial",sans-serif;
+  font-family: var(--learn-two-theme-font-family, "Muli","Helvetica","Tahoma","Geneva","Arial",sans-serif);
   letter-spacing: -.03rem;
   font-weight:400;
-  background: #FAFAFA;
+  background: var(--learn-two-theme-bg-color, #FFFFFF);
 }
 h1,h2,h3,h4,h5,h6 {
-  font-family:"Montserrat","Helvetica","Tahoma","Geneva","Arial",sans-serif;
   font-weight:400;
   text-rendering:optimizeLegibility;
   line-height:150%;
@@ -24,7 +23,7 @@ h1,h2,h3,h4,h5,h6 {
 }
 
 #contentcontainer {
-  background: #FAFAFA;
+  background: var(--learn-two-theme-bg-color);
   padding: 48px 96px;
   max-width: var(--learn-two-theme-content-max-width, 900px);
   margin: auto;
@@ -39,7 +38,6 @@ h1,h2,h3,h4,h5,h6 {
 
 site-active-title {
   --site-active-title-heading: {
-    font-family: "Montserrat", "Helvetica", "Tahoma", "Geneva", "Arial", sans-serif;
     font-size: 52px;
     letter-spacing: -3px;
     line-height: 78px;
@@ -59,7 +57,6 @@ site-title {
     text-decoration: none;
   };
   --site-title-heading: {
-    font-family: "Montserrat", "Helvetica", "Tahoma", "Geneva", "Arial", sans-serif;
     font-size: 28px;
     margin: 0;
     padding: 0;

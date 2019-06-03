@@ -23,11 +23,18 @@ class LearnTwoTheme extends HAXCMSTheme(PolymerElement) {
       <style>
         :host {
           display: block;
-          font-family: "Muli", "Helvetica", "Tahoma", "Geneva", "Arial",
-            sans-serif;
+          font-family: var(
+            --learn-two-theme-font-family,
+            "Muli",
+            "Helvetica",
+            "Tahoma",
+            "Geneva",
+            "Arial",
+            sans-serif
+          );
           letter-spacing: -0.03rem;
           font-weight: 400;
-          background: #fafafa;
+          background: var(--learn-two-theme-bg-color, #ffffff);
         }
         h1,
         h2,
@@ -35,8 +42,6 @@ class LearnTwoTheme extends HAXCMSTheme(PolymerElement) {
         h4,
         h5,
         h6 {
-          font-family: "Montserrat", "Helvetica", "Tahoma", "Geneva", "Arial",
-            sans-serif;
           font-weight: 400;
           text-rendering: optimizeLegibility;
           line-height: 150%;
@@ -52,7 +57,7 @@ class LearnTwoTheme extends HAXCMSTheme(PolymerElement) {
         }
 
         #contentcontainer {
-          background: #fafafa;
+          background: var(--learn-two-theme-bg-color);
           padding: 48px 96px;
           max-width: var(--learn-two-theme-content-max-width, 900px);
           margin: auto;
@@ -67,8 +72,6 @@ class LearnTwoTheme extends HAXCMSTheme(PolymerElement) {
 
         site-active-title {
           --site-active-title-heading: {
-            font-family: "Montserrat", "Helvetica", "Tahoma", "Geneva", "Arial",
-              sans-serif;
             font-size: 52px;
             letter-spacing: -3px;
             line-height: 78px;
@@ -88,8 +91,6 @@ class LearnTwoTheme extends HAXCMSTheme(PolymerElement) {
             text-decoration: none;
           }
           --site-title-heading: {
-            font-family: "Montserrat", "Helvetica", "Tahoma", "Geneva", "Arial",
-              sans-serif;
             font-size: 28px;
             margin: 0;
             padding: 0;
@@ -293,7 +294,11 @@ class LearnTwoTheme extends HAXCMSTheme(PolymerElement) {
 
   // properties available to the custom element for data binding
   static get properties() {
-    return {};
+    let props = {};
+    if (super.properties) {
+      props = Object.assign(props, super.properties);
+    }
+    return props;
   }
   constructor() {
     super();
