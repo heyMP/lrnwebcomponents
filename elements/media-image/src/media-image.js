@@ -91,7 +91,13 @@ class MediaImage extends SchemaBehaviors(PolymerElement) {
         }
 
         :host([offset="wide"]) {
-          margin: 0 calc(-1 * var(--media-image-offset-width, 1.5vw));
+          margin: 0 calc(-1 * var(--media-image-offset-wide-width, 3.5vw));
+          max-width: 100vw;
+        }
+
+        :host([offset="narrow"]) {
+          max-width: var(--media-image-offset-narrow-max-width, 500px);
+          margin: auto;
         }
       </style>
       <iron-image
@@ -181,9 +187,10 @@ class MediaImage extends SchemaBehaviors(PolymerElement) {
       /**
        * Applies left or right offset
        * - none
-       * - wide
        * - left
        * - right
+       * - wide
+       * - narrow
        */
       offset: {
         type: String,
@@ -292,9 +299,10 @@ class MediaImage extends SchemaBehaviors(PolymerElement) {
             options: {
               none: "none",
               left: "left",
-              right: "right"
-            },
-            required: false
+              right: "right",
+              wide: "wide",
+              narrow: "narrow"
+            }
           },
           {
             property: "citation",
